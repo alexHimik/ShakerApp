@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Shaker"
 include(":app")
- 
+include(":data")
+include(":domain")

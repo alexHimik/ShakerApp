@@ -93,7 +93,7 @@ private fun ShakerAppBottomNavigation(
         val currentRoute = navController.currentRoute
         items.forEach { screen ->
             BottomNavigationItem(
-                icon = { screen.icon?.let {
+                icon = { screen.icon.let {
                     Icon(
                         imageVector = it,
                         contentDescription = "",
