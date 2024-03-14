@@ -8,15 +8,20 @@ import androidx.room.PrimaryKey
 data class CocktailEntity(
     @PrimaryKey
     @ColumnInfo(name = "cocktail_id")
-    var id: String,
+    val id: String,
     @ColumnInfo(name = "cocktail_name")
-    var strDrink: String,
+    val strDrink: String,
     @ColumnInfo(name = "cocktail_category")
-    var strCategory: String,
+    val strCategory: String,
     @ColumnInfo(name = "cocktail_abv")
-    var strIBA: String,
+    val strIBA: String,
     @ColumnInfo(name = "cocktail_glass")
-    var strGlass: String,
+    val strGlass: String,
     @ColumnInfo(name = "cocktail_prep_instruction")
-    var strInstructions: String?,
+    val strInstructions: String,
+    @ColumnInfo(name = "cocktail_photo")
+    val strPhoto: String,
+    @ColumnInfo(name = "cocktail_type")
+    val strType: String
+
 )
