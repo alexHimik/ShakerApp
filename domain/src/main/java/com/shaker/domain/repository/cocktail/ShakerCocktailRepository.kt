@@ -1,4 +1,4 @@
-package com.shaker.domain.repository
+package com.shaker.domain.repository.cocktail
 
 import com.shaker.domain.either.Either
 import com.shaker.domain.model.ShakerCocktailCategoryModel

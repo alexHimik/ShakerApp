@@ -2,13 +2,11 @@ package com.shaker.app.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.shaker.app.R
@@ -32,7 +29,7 @@ import com.shaker.app.presentation.ui.navigation.rememberShakerNavController
 import com.shaker.app.presentation.ui.theme.ShakerTheme
 
 @Composable
-fun ShakerApp() {
+fun ShakerComposeApp() {
     ShakerTheme {
         val shakerNavController = rememberShakerNavController()
         val navigationTabs = listOf<ShakerScreen>(
