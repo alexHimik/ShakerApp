@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Shaker</string>
+    <string name="onboarding_screen_name_label">Onboarding</string>
+    <string name="root_home_screen_name_label">Home</string>
     <string name="main_screen_name_label">Main</string>
     <string name="catalog_screen_name_label">Catalog</string>
     <string name="favorites_screen_name_label">Favorites</string>

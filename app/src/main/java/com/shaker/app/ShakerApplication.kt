@@ -7,6 +7,7 @@ import com.shaker.app.di.module.ContextModule
 import com.shaker.data.di.DaggerShakerDataComponent
 import com.shaker.data.di.module.AppModule
 import com.shaker.data.di.module.NetworkModule
+import com.shaker.data.di.module.StorageModule
 
 class ShakerApplication : Application() {
 
@@ -23,6 +24,7 @@ class ShakerApplication : Application() {
         val dataComponent = DaggerShakerDataComponent.builder()
             .appModule(AppModule(this))
             .networkModule(NetworkModule(""))
+            .storageModule(StorageModule(this))
             .build()
 
         return DaggerShakerAppComponent.builder()

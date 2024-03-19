@@ -9,6 +9,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.shaker.app.R
 
 sealed class ShakerScreen(val route: String, @StringRes val title: Int, val icon: ImageVector) {
+
+    object OnBoarding : ShakerScreen("onboarding", R.string.onboarding_screen_name_label, Icons.Default.Home)
+    object HomeRoot : ShakerScreen("home", R.string.root_home_screen_name_label, Icons.Default.Home)
     object Main : ShakerScreen("main", R.string.main_screen_name_label, Icons.Default.Home)
     object Catalog : ShakerScreen("catalog", R.string.catalog_screen_name_label, Icons.Default.List)
     object Favorites : ShakerScreen("favorites", R.string.favorites_screen_name_label,Icons.Default.Favorite)

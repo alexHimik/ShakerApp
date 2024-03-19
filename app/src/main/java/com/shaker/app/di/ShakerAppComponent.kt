@@ -7,6 +7,7 @@ import com.shaker.app.di.scope.ApplicationScope
 import com.shaker.app.presentation.di.component.PresentationComponent
 import com.shaker.app.presentation.di.module.ActivityModule
 import com.shaker.data.di.ShakerDataComponent
+import com.shaker.domain.storage.ShakerPreferenceStorage
 import dagger.Component
 
 @ApplicationScope
