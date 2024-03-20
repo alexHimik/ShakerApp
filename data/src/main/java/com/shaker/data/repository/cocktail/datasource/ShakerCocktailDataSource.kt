@@ -16,7 +16,7 @@ interface ShakerCocktailDataSource {
     }
 
     interface Local {
-        suspend fun addCocktailToFavorites(cocktail: CocktailEntity)
+        suspend fun addCocktailToFavorites(cocktailId: String)
 
         suspend fun addCocktailToLastViewed(cocktail: CocktailEntity)
 
@@ -25,5 +25,7 @@ interface ShakerCocktailDataSource {
         suspend fun getLastViewedCocktails(): List<CocktailEntity>
 
         suspend fun getCocktailsCategories(): List<CocktailCategoryEntity>
+
+        suspend fun saveCocktailCategories(categories: List<CocktailCategoryEntity>)
     }
 }

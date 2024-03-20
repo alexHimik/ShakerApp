@@ -23,7 +23,7 @@ class ShakerApplication : Application() {
     private fun initializeComponent(): ShakerAppComponent {
         val dataComponent = DaggerShakerDataComponent.builder()
             .appModule(AppModule(this))
-            .networkModule(NetworkModule(""))
+            .networkModule(NetworkModule(getString(R.string.api_base_url)))
             .storageModule(StorageModule(this))
             .build()
 

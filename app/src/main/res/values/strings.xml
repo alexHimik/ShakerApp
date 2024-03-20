@@ -5,4 +5,12 @@
     <string name="main_screen_name_label">Main</string>
     <string name="catalog_screen_name_label">Catalog</string>
     <string name="favorites_screen_name_label">Favorites</string>
+    <string name="label_search">Search</string>
+    <string name="search_cocktail">Cocktail</string>
+    <string name="label_back">Back</string>
+    <string name="search_no_matches">Nothing is found for “%1s”</string>
+    <string name="search_no_matches_retry">Try to clarify your search request</string>
+    <string name="no_viewed_results_yet">No viewed cocktails</string>
+    <string name="error_happend_label">An error occurred during data retrieving!</string>
+    <string name="api_base_url">https://www.thecocktaildb.com/api/json/v1/</string>
 </resources>

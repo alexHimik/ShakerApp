@@ -18,6 +18,14 @@ class ShakerPreferenceStorageImpl @Inject constructor(context: Context) : Shaker
         editor.putBoolean(FIRST_APP_START_DONE, true).apply()
     }
 
+    override fun getCategoriesUpdateStamp(): Long {
+        return sharedPreferences.getLong(CATEGORY_UPDATED_AT, 0)
+    }
+
+    override fun getCategoriesUpdateStamp(stamp: Long) {
+        editor.putLong(CATEGORY_UPDATED_AT, stamp).apply()
+    }
+
     override fun clear() {
         editor.clear()
     }
@@ -27,6 +35,7 @@ class ShakerPreferenceStorageImpl @Inject constructor(context: Context) : Shaker
 
         private const val PREFS_NAME = "shaker_app_preferences"
         private const val FIRST_APP_START_DONE = "first_app_start_done"
+        private const val CATEGORY_UPDATED_AT = "category_updated_at"
 
         internal fun instance(context: Context): ShakerPreferenceStorageImpl {
             if (_instance == null) {

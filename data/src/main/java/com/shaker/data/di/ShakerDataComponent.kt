@@ -8,6 +8,7 @@ import com.shaker.data.di.module.StorageModule
 import com.shaker.data.di.repository.ShakerCocktailRepositoryModule
 import com.shaker.data.di.scope.DataScope
 import com.shaker.domain.repository.cocktail.ShakerCocktailRepository
+import com.shaker.domain.storage.ShakerCredentialStorage
 import com.shaker.domain.storage.ShakerPreferenceStorage
 import dagger.Component
 
@@ -25,4 +26,6 @@ interface ShakerDataComponent {
     fun shakerCocktailRepository(): ShakerCocktailRepository
 
     fun provideShakerPreferenceStorage(): ShakerPreferenceStorage
+
+    fun provideShakerCredentialsStorage(): ShakerCredentialStorage
 }

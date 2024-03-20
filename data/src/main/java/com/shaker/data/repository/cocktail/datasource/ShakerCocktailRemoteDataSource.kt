@@ -26,9 +26,8 @@ class ShakerCocktailRemoteDataSource @Inject constructor(
 
     override suspend fun searchCocktailByName(nameValue: String): Either<Failure, List<CocktailDetailsModel>> {
         return try {
-            Either.Right(shakerApi.searchCocktailByName(nameValue,
-                credentialStorage.provideApiCredentials()
-            ).cocktails)
+            Either.Right(shakerApi.searchCocktailByName(credentialStorage.provideApiCredentials(),
+                nameValue).cocktails)
         } catch (ex: Exception) {
             Either.Left(Failure.NetworkConnection())
         }

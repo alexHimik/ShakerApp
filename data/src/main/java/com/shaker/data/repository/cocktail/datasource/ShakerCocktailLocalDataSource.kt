@@ -13,23 +13,28 @@ class ShakerCocktailLocalDataSource @Inject constructor(
     private val cocktailDao: CocktailDao
 ): ShakerCocktailDataSource.Local {
 
-    override suspend fun addCocktailToFavorites(cocktail: CocktailEntity) {
-        TODO("Not yet implemented")
+    override suspend fun addCocktailToFavorites(cocktailId: String) {
+        cocktailDao.addCocktailToFavourites(cocktailId)
     }
 
     override suspend fun addCocktailToLastViewed(cocktail: CocktailEntity) {
-        TODO("Not yet implemented")
+        cocktailDao.addCocktailToViewed(cocktail)
     }
 
     override suspend fun getFavoriteCocktails(): List<CocktailEntity> {
-        TODO("Not yet implemented")
+        return cocktailDao.getFavouriteCocktails()
     }
 
     override suspend fun getLastViewedCocktails(): List<CocktailEntity> {
-        TODO("Not yet implemented")
+        return cocktailDao.getLastViewedCocktails()
     }
 
     override suspend fun getCocktailsCategories(): List<CocktailCategoryEntity> {
-        TODO("Not yet implemented")
+        return categoryDao.getCategories()
+    }
+
+    override suspend fun saveCocktailCategories(categories: List<CocktailCategoryEntity>) {
+        categoryDao.clearCategories()
+        categoryDao.saveCategories(categories)
     }
 }

@@ -2,6 +2,7 @@ package com.shaker.app.presentation.ui.screen.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,6 +30,8 @@ import com.shaker.app.R
 import com.shaker.app.presentation.ui.navigation.ShakerNavController
 import com.shaker.app.presentation.ui.navigation.ShakerScreen
 import com.shaker.app.presentation.ui.navigation.rememberShakerNavController
+import com.shaker.app.presentation.ui.screen.search.SearchScreen
+import com.shaker.domain.result.Failure
 
 val navigationTabs = listOf<ShakerScreen>(
     ShakerScreen.Main,
@@ -37,22 +41,34 @@ val navigationTabs = listOf<ShakerScreen>(
 
 @Composable
 fun ShakerHomeScreen(
-    navController: ShakerNavController
+    navController: ShakerNavController,
+    onErrorHandler: (LiveData<List<Failure>>) -> Unit
 ) {
     val homeScreenNavController = rememberNavController()
     Scaffold(
         bottomBar = { ShakerAppBottomNavigation(navController, navigationTabs) },
         ) { paddingData ->
         val topPadding = paddingData.calculateTopPadding()
-        ShakerHomeScreenNavigationResolver(homeScreenNavController)
+        ShakerHomeScreenNavigationResolver(homeScreenNavController, paddingData, onErrorHandler)
     }
 }
 
 @Composable
-private fun ShakerHomeScreenNavigationResolver(navController: NavHostController) {
+private fun ShakerHomeScreenNavigationResolver(navController: NavHostController,
+                                               paddingValues: PaddingValues,
+                                               onErrorHandler: (LiveData<List<Failure>>) -> Unit) {
     NavHost(navController = navController, startDestination = ShakerScreen.Main.route) {
         composable(ShakerScreen.Main.route) {
-            TempShakerScreen(stringResource(id = ShakerScreen.Main.title))
+            SearchScreen(
+                onCocktailClick = { cocktail ->
+                                  //todo implement cocktail clicks
+                },
+                onNavigateToRoute = { route ->
+
+                },
+                paddingValues,
+                onErrorHandler
+            )
         }
         composable(ShakerScreen.Catalog.route) {
             TempShakerScreen(stringResource(id = ShakerScreen.Catalog.title))

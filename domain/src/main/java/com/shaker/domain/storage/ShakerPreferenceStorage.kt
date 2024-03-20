@@ -6,5 +6,9 @@ interface ShakerPreferenceStorage {
 
     fun setFirstAppStartDone()
 
+    fun getCategoriesUpdateStamp(): Long
+
+    fun getCategoriesUpdateStamp(stamp: Long)
+
     fun clear()
 }

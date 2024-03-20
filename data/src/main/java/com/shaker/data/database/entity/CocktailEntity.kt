@@ -22,6 +22,7 @@ data class CocktailEntity(
     @ColumnInfo(name = "cocktail_photo")
     val strPhoto: String,
     @ColumnInfo(name = "cocktail_type")
-    val strType: String
-
+    val strType: String,
+    @ColumnInfo(name = "is_favourite")
+    val favourite: Int
 )

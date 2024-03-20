@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class CocktailCategoryEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long,
+    val id: Long?,
     @ColumnInfo(name = "name")
     val categoryName: String
 )

@@ -14,7 +14,7 @@ interface ShakerCocktailRepository {
 
     suspend fun getFavoriteCocktails(): Either<Failure, List<ShakerCocktailModel>>
 
-    fun searchCocktailByName(nameValue: String): Flow<Either<Failure, List<ShakerCocktailModel>>>
+    suspend fun searchCocktailByName(nameValue: String): Either<Failure, List<ShakerCocktailModel>>
 
     suspend fun addCocktailToFavorites(cocktail: ShakerCocktailModel): Either<Failure, Any>
 
