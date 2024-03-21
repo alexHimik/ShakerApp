@@ -11,7 +11,6 @@ import com.shaker.domain.model.ShakerCocktailModel
 import com.shaker.domain.repository.cocktail.ShakerCocktailRepository
 import com.shaker.domain.result.Failure
 import com.shaker.domain.storage.ShakerPreferenceStorage
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ShakerCocktailRepositoryImpl @Inject constructor(
@@ -34,6 +33,7 @@ class ShakerCocktailRepositoryImpl @Inject constructor(
                 cocktailLocalSource.saveCocktailCategories(categories.map {
                     CocktailCategoryEntity(null, it.categoryName)
                 })
+                preferenceStorage.setCategoriesUpdateStamp(System.currentTimeMillis())
                 Either.Right(categories)
             }
         } else {

@@ -13,4 +13,6 @@
     <string name="no_viewed_results_yet">No viewed cocktails</string>
     <string name="error_happend_label">An error occurred during data retrieving!</string>
     <string name="api_base_url">https://www.thecocktaildb.com/api/json/v1/</string>
+    <string name="no_categories_label">No categories found</string>
+    <string name="categories_label">Cocktail categories</string>
 </resources>

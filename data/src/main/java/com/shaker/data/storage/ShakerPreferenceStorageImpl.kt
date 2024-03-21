@@ -22,7 +22,7 @@ class ShakerPreferenceStorageImpl @Inject constructor(context: Context) : Shaker
         return sharedPreferences.getLong(CATEGORY_UPDATED_AT, 0)
     }
 
-    override fun getCategoriesUpdateStamp(stamp: Long) {
+    override fun setCategoriesUpdateStamp(stamp: Long) {
         editor.putLong(CATEGORY_UPDATED_AT, stamp).apply()
     }
 

@@ -15,7 +15,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 private val LightColorPalette = ShakerColors(
-    brand = Shadow5,
+    brand = Lavender6,
     brandSecondary = Ocean3,
     uiBackground = Neutral0,
     uiBorder = Neutral4,
@@ -40,7 +40,7 @@ private val LightColorPalette = ShakerColors(
 )
 
 private val DarkColorPalette = ShakerColors(
-    brand = Shadow1,
+    brand = Lavender6,
     brandSecondary = Ocean2,
     uiBackground = Neutral8,
     uiBorder = Neutral3,
@@ -83,7 +83,6 @@ fun ShakerTheme(
 
     ProvideShakerColors(colors) {
         androidx.compose.material.MaterialTheme(
-            colors = debugColors(darkTheme),
             typography = Typography,
             shapes = Shapes,
             content = content
@@ -259,26 +258,3 @@ fun ProvideShakerColors(
 private val LocalShakerColors = staticCompositionLocalOf<ShakerColors> {
     error("No ShakerColorPalette provided")
 }
-
-/**
- * A Material [Colors] implementation which sets all colors to [debugColor] to discourage usage of
- * [MaterialTheme.colors] in preference to [ShakerTheme.colors].
- */
-fun debugColors(
-    darkTheme: Boolean,
-    debugColor: Color = Color.Magenta
-) = Colors(
-    primary = debugColor,
-    primaryVariant = debugColor,
-    secondary = debugColor,
-    secondaryVariant = debugColor,
-    background = debugColor,
-    surface = debugColor,
-    error = debugColor,
-    onPrimary = debugColor,
-    onSecondary = debugColor,
-    onBackground = debugColor,
-    onSurface = debugColor,
-    onError = debugColor,
-    isLight = !darkTheme
-)

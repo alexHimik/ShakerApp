@@ -26,7 +26,7 @@ fun SetupNavGraph(
             ShakerOnBoardingScreen(navController = navController, onBoardingViewModel = onBoardingViewModel)
         }
         composable(route = ShakerScreen.HomeRoot.route) {
-            ShakerHomeScreen(navController = navController, onErrorHandler = onErrorHandler)
+            ShakerHomeScreen(rootNavController = navController, onErrorHandler = onErrorHandler)
         }
     }
 }

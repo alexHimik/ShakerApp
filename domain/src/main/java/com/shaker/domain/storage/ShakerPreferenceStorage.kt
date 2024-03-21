@@ -8,7 +8,7 @@ interface ShakerPreferenceStorage {
 
     fun getCategoriesUpdateStamp(): Long
 
-    fun getCategoriesUpdateStamp(stamp: Long)
+    fun setCategoriesUpdateStamp(stamp: Long)
 
     fun clear()
 }

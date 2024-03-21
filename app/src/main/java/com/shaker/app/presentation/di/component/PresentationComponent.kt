@@ -5,9 +5,7 @@ import com.shaker.app.presentation.di.module.ActivityModule
 import com.shaker.app.presentation.di.module.ViewModelModule
 import com.shaker.app.presentation.di.scope.PresentationScope
 import com.shaker.app.presentation.ui.screen.onboarding.di.ShakerOnBoardingModule
-import com.shaker.app.presentation.ui.screen.search.di.ShakerSearchModule
 import com.shaker.app.presentation.ui.screen.splash.di.ShakerSplashModule
-import com.shaker.domain.storage.ShakerPreferenceStorage
 import dagger.Subcomponent
 
 @PresentationScope
@@ -16,8 +14,7 @@ import dagger.Subcomponent
         ActivityModule::class,
         ViewModelModule::class,
         ShakerOnBoardingModule::class,
-        ShakerSplashModule::class,
-        ShakerSearchModule::class
+        ShakerSplashModule::class
     ]
 )
 interface PresentationComponent {

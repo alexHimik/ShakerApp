@@ -1,26 +1,17 @@
 package com.shaker.app.presentation.ui.screen.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -29,7 +20,8 @@ import androidx.navigation.compose.rememberNavController
 import com.shaker.app.R
 import com.shaker.app.presentation.ui.navigation.ShakerNavController
 import com.shaker.app.presentation.ui.navigation.ShakerScreen
-import com.shaker.app.presentation.ui.navigation.rememberShakerNavController
+import com.shaker.app.presentation.ui.screen.category.ShakerCategoryCatalogScreen
+import com.shaker.app.presentation.ui.screen.favourites.ShakerFavouritesScreen
 import com.shaker.app.presentation.ui.screen.search.SearchScreen
 import com.shaker.domain.result.Failure
 
@@ -41,12 +33,12 @@ val navigationTabs = listOf<ShakerScreen>(
 
 @Composable
 fun ShakerHomeScreen(
-    navController: ShakerNavController,
+    rootNavController: ShakerNavController,
     onErrorHandler: (LiveData<List<Failure>>) -> Unit
 ) {
     val homeScreenNavController = rememberNavController()
     Scaffold(
-        bottomBar = { ShakerAppBottomNavigation(navController, navigationTabs) },
+        bottomBar = { ShakerAppBottomNavigation(homeScreenNavController, navigationTabs) },
         ) { paddingData ->
         val topPadding = paddingData.calculateTopPadding()
         ShakerHomeScreenNavigationResolver(homeScreenNavController, paddingData, onErrorHandler)
@@ -71,40 +63,33 @@ private fun ShakerHomeScreenNavigationResolver(navController: NavHostController,
             )
         }
         composable(ShakerScreen.Catalog.route) {
-            TempShakerScreen(stringResource(id = ShakerScreen.Catalog.title))
+            ShakerCategoryCatalogScreen(
+                onCategoryClick = { category ->
+                    //todo implement category clicks
+                },
+                paddingValues,
+                onErrorHandler
+            )
         }
         composable(ShakerScreen.Favorites.route) {
-            TempShakerScreen(stringResource(id = ShakerScreen.Favorites.title))
+            ShakerFavouritesScreen(
+                onCocktailClick = { cocktail ->
+                    //todo implement cocktail clicks
+                },
+                paddingValues,
+                onErrorHandler
+            )
         }
-    }
-}
-
-@Composable
-private fun TempShakerScreen(screenTitle: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.teal_700))
-            .wrapContentSize(Alignment.Center)
-    ) {
-        Text(
-            text = screenTitle,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 20.sp
-        )
     }
 }
 
 @Composable
 private fun ShakerAppBottomNavigation(
-    navController: ShakerNavController,
+    navController: NavHostController,
     items: List<ShakerScreen>
 ) {
     BottomNavigation {
-        val currentRoute = navController.currentRoute
+        val currentRoute = navController.currentDestination?.route
         items.forEach { screen ->
             BottomNavigationItem(
                 icon = { screen.icon.let {
@@ -123,7 +108,7 @@ private fun ShakerAppBottomNavigation(
                     // This if check gives us a "singleTop" behavior where we do not create a
                     // second instance of the composable if we are already on that destination
                     if (currentRoute != screen.route) {
-                        navController.navController.navigate(screen.route)
+                        navController.navigate(screen.route)
                     }
                 }
             )
