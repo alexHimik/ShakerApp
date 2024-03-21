@@ -103,6 +103,24 @@ class ShakerCocktailRepositoryImpl @Inject constructor(
         return Either.Right(emptyList<Any>())
     }
 
+    override suspend fun getCategoryCocktails(categoryName: String): Either<Failure, List<ShakerCocktailModel>> {
+        val remoteResponse = cocktailRemoteSource.getCategoryCocktails(categoryName)
+        return if(remoteResponse.isLeft) {
+            val failureData = (remoteResponse as Either.Left).a
+            Either.Left(failureData)
+        } else {
+            val cocktailsData = (remoteResponse as Either.Right).b
+            Either.Right(cocktailsData.map { ShakerCocktailModel(
+                it.idDrink.orEmpty(),
+                it.strDrink.orEmpty(),
+                it.strDrinkThumb.orEmpty(),
+                it.strCategory.orEmpty(),
+                it.strAlcoholic.orEmpty(),
+                it.strGlass.orEmpty(), prepareCocktailIngredients(it)
+            ) })
+        }
+    }
+
     private fun prepareCocktailIngredients(cocktail: CocktailDetailsModel): List<ShakerCocktailIngredientModel> {
         val ingredients = listOf(
             cocktail.strIngredient1, cocktail.strIngredient2, cocktail.strIngredient3,

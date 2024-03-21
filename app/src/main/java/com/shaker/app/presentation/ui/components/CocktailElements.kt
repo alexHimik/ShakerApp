@@ -1,4 +1,4 @@
-package com.shaker.app.presentation.ui.screen.search
+package com.shaker.app.presentation.ui.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -34,9 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.shaker.app.R
-import com.shaker.app.presentation.ui.components.ShakerCard
-import com.shaker.app.presentation.ui.components.ShakerImage
-import com.shaker.app.presentation.ui.components.VerticalGrid
 import com.shaker.app.presentation.ui.theme.ShakerTheme
 import com.shaker.domain.model.ShakerCocktailModel
 import kotlin.math.max
@@ -141,7 +138,7 @@ private fun CocktailsGridBlock(
 }
 
 @Composable
-private fun CocktailInfoItem(
+fun CocktailInfoItem(
     cocktail: ShakerCocktailModel,
     gradient: List<Color>,
     modifier: Modifier = Modifier,

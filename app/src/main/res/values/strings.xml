@@ -3,8 +3,11 @@
     <string name="onboarding_screen_name_label">Onboarding</string>
     <string name="root_home_screen_name_label">Home</string>
     <string name="main_screen_name_label">Main</string>
-    <string name="catalog_screen_name_label">Catalog</string>
+    <string name="catalog_screen_name_label">Categories</string>
     <string name="favorites_screen_name_label">Favorites</string>
+    <string name="category_cocktails_screen_name_label">Category cocktails</string>
+    <string name="cocktail_details_screen_name_label">Cocktail details</string>
+
     <string name="label_search">Search</string>
     <string name="search_cocktail">Cocktail</string>
     <string name="label_back">Back</string>
@@ -14,5 +17,7 @@
     <string name="error_happend_label">An error occurred during data retrieving!</string>
     <string name="api_base_url">https://www.thecocktaildb.com/api/json/v1/</string>
     <string name="no_categories_label">No categories found</string>
+    <string name="no_cocktails_for_category_label">No cocktails found for “%1s”</string>
     <string name="categories_label">Cocktail categories</string>
+
 </resources>

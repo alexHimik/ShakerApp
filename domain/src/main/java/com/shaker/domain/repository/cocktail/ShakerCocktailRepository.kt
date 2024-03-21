@@ -19,4 +19,6 @@ interface ShakerCocktailRepository {
     suspend fun addCocktailToFavorites(cocktail: ShakerCocktailModel): Either<Failure, Any>
 
     suspend fun addCocktailToLastViewed(cocktail: ShakerCocktailModel): Either<Failure, Any>
+
+    suspend fun getCategoryCocktails(categoryName: String): Either<Failure, List<ShakerCocktailModel>>
 }

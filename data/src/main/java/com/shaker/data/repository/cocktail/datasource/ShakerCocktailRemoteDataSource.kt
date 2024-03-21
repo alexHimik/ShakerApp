@@ -32,4 +32,13 @@ class ShakerCocktailRemoteDataSource @Inject constructor(
             Either.Left(Failure.NetworkConnection())
         }
     }
+
+    override suspend fun getCategoryCocktails(categoryName: String): Either<Failure, List<CocktailDetailsModel>> {
+        return try {
+            Either.Right(shakerApi.getCategoryCocktails(credentialStorage.provideApiCredentials(),
+                categoryName).cocktails)
+        } catch (ex: Exception) {
+            Either.Left(Failure.NetworkConnection())
+        }
+    }
 }

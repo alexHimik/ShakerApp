@@ -39,6 +39,9 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.shaker.app.R
+import com.shaker.app.presentation.ui.components.CocktailsGridList
+import com.shaker.app.presentation.ui.components.FoundCocktailsGridList
+import com.shaker.app.presentation.ui.components.NoResults
 import com.shaker.app.presentation.ui.components.ShakerDivider
 import com.shaker.app.presentation.ui.components.ShakerSurface
 import com.shaker.app.presentation.ui.theme.ShakerTheme

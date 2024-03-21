@@ -13,6 +13,8 @@ interface ShakerCocktailDataSource {
         suspend fun getCocktailCategories(): Either<Failure, List<CocktailCategoryModel>>
 
         suspend fun searchCocktailByName(nameValue: String): Either<Failure, List<CocktailDetailsModel>>
+
+        suspend fun getCategoryCocktails(categoryName: String): Either<Failure, List<CocktailDetailsModel>>
     }
 
     interface Local {

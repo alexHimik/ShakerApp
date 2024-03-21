@@ -14,22 +14,32 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.shaker.app.R
 import com.shaker.app.presentation.ui.navigation.ShakerNavController
 import com.shaker.app.presentation.ui.navigation.ShakerScreen
 import com.shaker.app.presentation.ui.screen.category.ShakerCategoryCatalogScreen
+import com.shaker.app.presentation.ui.screen.cocktails.ShakerCategoryCocktailsScreen
 import com.shaker.app.presentation.ui.screen.favourites.ShakerFavouritesScreen
+import com.shaker.app.presentation.ui.screen.home.ShakerHomeScreen.NAV_CATEGORIES_DEST_PARAM
+import com.shaker.app.presentation.ui.screen.home.ShakerHomeScreen.NAV_CATEGORY_ID_PARAM
 import com.shaker.app.presentation.ui.screen.search.SearchScreen
 import com.shaker.domain.result.Failure
 
 val navigationTabs = listOf<ShakerScreen>(
     ShakerScreen.Main,
-    ShakerScreen.Catalog,
+    ShakerScreen.Categories,
     ShakerScreen.Favorites
 )
+
+object ShakerHomeScreen {
+    const val NAV_CATEGORIES_DEST_PARAM = "category"
+    const val NAV_CATEGORY_ID_PARAM = "categoryId"
+}
 
 @Composable
 fun ShakerHomeScreen(
@@ -40,7 +50,6 @@ fun ShakerHomeScreen(
     Scaffold(
         bottomBar = { ShakerAppBottomNavigation(homeScreenNavController, navigationTabs) },
         ) { paddingData ->
-        val topPadding = paddingData.calculateTopPadding()
         ShakerHomeScreenNavigationResolver(homeScreenNavController, paddingData, onErrorHandler)
     }
 }
@@ -62,10 +71,10 @@ private fun ShakerHomeScreenNavigationResolver(navController: NavHostController,
                 onErrorHandler
             )
         }
-        composable(ShakerScreen.Catalog.route) {
+        composable(ShakerScreen.Categories.route) {
             ShakerCategoryCatalogScreen(
                 onCategoryClick = { category ->
-                    //todo implement category clicks
+                    navController.navigate("$NAV_CATEGORIES_DEST_PARAM/${category.categoryName}")
                 },
                 paddingValues,
                 onErrorHandler
@@ -73,6 +82,19 @@ private fun ShakerHomeScreenNavigationResolver(navController: NavHostController,
         }
         composable(ShakerScreen.Favorites.route) {
             ShakerFavouritesScreen(
+                onCocktailClick = { cocktail ->
+                    //todo implement cocktail clicks
+                },
+                paddingValues,
+                onErrorHandler
+            )
+        }
+        composable(
+            ShakerScreen.CategoryCocktails.route,
+            arguments = listOf(navArgument(NAV_CATEGORY_ID_PARAM) { type = NavType.StringType })
+        ) { backStackEntry ->
+            ShakerCategoryCocktailsScreen(
+                backStackEntry.arguments?.getString(NAV_CATEGORY_ID_PARAM),
                 onCocktailClick = { cocktail ->
                     //todo implement cocktail clicks
                 },
