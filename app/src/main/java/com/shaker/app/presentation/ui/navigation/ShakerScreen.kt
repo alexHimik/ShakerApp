@@ -43,7 +43,7 @@ sealed class ShakerScreen(val route: String, @StringRes val title: Int, val icon
     )
 
     object CocktailDetails : ShakerScreen(
-        "cocktailDetails",
+        "cocktailDetails/{cocktailId}",
         R.string.cocktail_details_screen_name_label,
         Icons.Default.List
     )

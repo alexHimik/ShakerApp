@@ -9,15 +9,24 @@
     <string name="cocktail_details_screen_name_label">Cocktail details</string>
 
     <string name="label_search">Search</string>
-    <string name="search_cocktail">Cocktail</string>
+    <string name="search_cocktail">Search cocktail</string>
     <string name="label_back">Back</string>
     <string name="search_no_matches">Nothing is found for “%1s”</string>
     <string name="search_no_matches_retry">Try to clarify your search request</string>
     <string name="no_viewed_results_yet">No viewed cocktails</string>
     <string name="error_happend_label">An error occurred during data retrieving!</string>
+    <string name="no_data_found_label">No data found!</string>
     <string name="api_base_url">https://www.thecocktaildb.com/api/json/v1/</string>
     <string name="no_categories_label">No categories found</string>
     <string name="no_cocktails_for_category_label">No cocktails found for “%1s”</string>
     <string name="categories_label">Cocktail categories</string>
+    <string name="no_coctail_data_label">No cocktail found :(</string>
+    <string name="prepairing_notes_label">Prepairing notes:</string>
+    <string name="id_label">ID: %1$s</string>
+    <string name="category_label">Category: %1$s</string>
+    <string name="type_label">Type: %1$s</string>
+    <string name="serving_glass_label">Serving glass: %1$s</string>
+    <string name="ingredients_label">ingredients</string>
+    <string name="recently_viewed_label">Recently viewed</string>
 
 </resources>

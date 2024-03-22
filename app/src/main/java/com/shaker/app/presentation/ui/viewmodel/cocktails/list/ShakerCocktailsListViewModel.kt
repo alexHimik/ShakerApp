@@ -1,4 +1,4 @@
-package com.shaker.app.presentation.ui.viewmodel.cocktails
+package com.shaker.app.presentation.ui.viewmodel.cocktails.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -40,6 +40,7 @@ class ShakerCocktailsListViewModel @Inject constructor(
                         )
                     } else {
                         handledErrors.value = listOf((categoryResult as Either.Left).a)
+                        forCategoryCocktails.value = CategoryResultsStateWrapper(false, emptyList())
                     }
                 }
             }

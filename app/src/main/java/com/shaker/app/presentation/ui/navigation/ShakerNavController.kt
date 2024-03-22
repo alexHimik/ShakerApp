@@ -45,7 +45,7 @@ class ShakerNavController(
         }
     }
 
-    fun navigateToCocktailDetail(cocktailId: Long, from: NavBackStackEntry) {
+    fun navigateToMain(cocktailId: Long, from: NavBackStackEntry) {
         // In order to discard duplicated navigation events, we check the Lifecycle
 //        if (from.lifecycleIsResumed()) {
 //            navController.navigate("${MainDestinations.SNACK_DETAIL_ROUTE}/$snackId")
@@ -69,6 +69,6 @@ private val NavGraph.startDestination: NavDestination?
  *
  * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:navigation/navigation-ui/src/main/java/androidx/navigation/ui/NavigationUI.kt
  */
-private tailrec fun findStartDestination(graph: NavDestination): NavDestination {
+tailrec fun findStartDestination(graph: NavDestination): NavDestination {
     return if (graph is NavGraph) findStartDestination(graph.startDestination!!) else graph
 }

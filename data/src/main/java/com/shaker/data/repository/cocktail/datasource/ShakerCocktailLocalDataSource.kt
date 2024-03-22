@@ -35,4 +35,8 @@ class ShakerCocktailLocalDataSource @Inject constructor(
         categoryDao.clearCategories()
         categoryDao.saveCategories(categories)
     }
+
+    override suspend fun getCocktailDetails(cocktailId: String): CocktailEntity? {
+        return cocktailDao.getCocktailById(cocktailId)
+    }
 }

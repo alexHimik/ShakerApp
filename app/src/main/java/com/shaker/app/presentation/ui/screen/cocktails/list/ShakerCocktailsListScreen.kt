@@ -1,4 +1,4 @@
-package com.shaker.app.presentation.ui.screen.cocktails
+package com.shaker.app.presentation.ui.screen.cocktails.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,7 +30,7 @@ import com.shaker.app.presentation.ui.components.CocktailInfoItem
 import com.shaker.app.presentation.ui.components.EmptyStubComponent
 import com.shaker.app.presentation.ui.components.ShakerSurface
 import com.shaker.app.presentation.ui.theme.ShakerTheme
-import com.shaker.app.presentation.ui.viewmodel.cocktails.ShakerCocktailsListViewModel
+import com.shaker.app.presentation.ui.viewmodel.cocktails.list.ShakerCocktailsListViewModel
 import com.shaker.domain.model.ShakerCocktailModel
 import com.shaker.domain.result.Failure
 
@@ -96,6 +96,7 @@ private fun CategoryCocktailsGridComponent(
             CocktailInfoItem(
                 modifier = Modifier.padding(5.dp),
                 cocktail = item,
+                photoUrlModifier = "/preview",
                 gradient = ShakerTheme.colors.gradient3_2,
                 onCocktailClick = onCocktailClick
             )

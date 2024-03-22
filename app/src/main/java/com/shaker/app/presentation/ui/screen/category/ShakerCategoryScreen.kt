@@ -53,8 +53,6 @@ fun ShakerCategoryCatalogScreen(
             verticalArrangement = getColumnVerticalAlignment(categoriesData.loading),
             modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.statusBarsPadding())
-
             if(categoriesData.loading) {
                 CircularProgressIndicator(
                     color = ShakerTheme.colors.iconPrimary,

@@ -49,7 +49,8 @@ class ShakerCocktailRepositoryImpl @Inject constructor(
             it.strPhoto,
             it.strCategory,
             it.strType,
-            it.strGlass
+            it.strGlass,
+            it.strInstructions
         ) })
     }
 
@@ -60,7 +61,8 @@ class ShakerCocktailRepositoryImpl @Inject constructor(
             it.strPhoto,
             it.strCategory,
             it.strType,
-            it.strGlass
+            it.strGlass,
+            it.strInstructions
         ) })
     }
 
@@ -71,14 +73,21 @@ class ShakerCocktailRepositoryImpl @Inject constructor(
             Either.Left(failureData)
         } else {
             val cocktailsData = (remoteResponse as Either.Right).b
-            Either.Right(cocktailsData.map { ShakerCocktailModel(
-                it.idDrink.orEmpty(),
-                it.strDrink.orEmpty(),
-                it.strDrinkThumb.orEmpty(),
-                it.strCategory.orEmpty(),
-                it.strAlcoholic.orEmpty(),
-                it.strGlass.orEmpty(), prepareCocktailIngredients(it)
-            ) })
+            if(cocktailsData != null) {
+                Either.Right(cocktailsData.map { ShakerCocktailModel(
+                    it.idDrink.orEmpty(),
+                    it.strDrink.orEmpty(),
+                    it.strDrinkThumb.orEmpty(),
+                    it.strCategory.orEmpty(),
+                    it.strAlcoholic.orEmpty(),
+                    it.strGlass.orEmpty(),
+                    it.strInstructions.orEmpty(),
+                    prepareCocktailIngredients(it)
+                ) })
+            } else {
+                Either.Left(Failure.NoDataError())
+            }
+
         }
     }
 
@@ -94,7 +103,7 @@ class ShakerCocktailRepositoryImpl @Inject constructor(
             cocktail.category,
             "N/A",
             cocktail.glassType,
-            "",
+            cocktail.preparingInstruction,
             cocktail.photo,
             cocktail.type,
             0
@@ -116,8 +125,65 @@ class ShakerCocktailRepositoryImpl @Inject constructor(
                 it.strDrinkThumb.orEmpty(),
                 it.strCategory.orEmpty(),
                 it.strAlcoholic.orEmpty(),
-                it.strGlass.orEmpty(), prepareCocktailIngredients(it)
+                it.strGlass.orEmpty(),
+                it.strInstructions.orEmpty(),
+                prepareCocktailIngredients(it)
             ) })
+        }
+    }
+
+    override suspend fun getCocktailsDetails(cocktailId: String): Either<Failure, ShakerCocktailModel> {
+        return try {
+            val cocktailData = cocktailLocalSource.getCocktailDetails(cocktailId)
+            if(cocktailData != null) {
+                Either.Right(ShakerCocktailModel(
+                    cocktailData.id,
+                    cocktailData.strDrink,
+                    cocktailData.strPhoto,
+                    cocktailData.strCategory,
+                    cocktailData.strType,
+                    cocktailData.strInstructions,
+                    cocktailData.strGlass
+                ))
+            } else {
+                val response = cocktailRemoteSource.getRandomCocktailDetails()
+                return if(response.isRight) {
+                    val cocktail = (response as Either.Right).b
+                    Either.Right(ShakerCocktailModel(
+                        cocktail.idDrink.orEmpty(),
+                        cocktail.strDrink.orEmpty(),
+                        cocktail.strDrinkThumb.orEmpty(),
+                        cocktail.strCategory.orEmpty(),
+                        cocktail.strAlcoholic.orEmpty(),
+                        cocktail.strInstructions.orEmpty(),
+                        cocktail.strGlass.orEmpty(),
+                        prepareCocktailIngredients(cocktail)
+                    ))
+                } else {
+                    response as Either.Left
+                }
+            }
+        } catch (ex: Exception) {
+            Either.Left(Failure.NoDataError())
+        }
+    }
+
+    override suspend fun getRandomCocktailDetails(): Either<Failure, ShakerCocktailModel> {
+        val response = cocktailRemoteSource.getRandomCocktailDetails()
+        return if(response.isRight) {
+            val cocktail = (response as Either.Right).b
+            Either.Right(ShakerCocktailModel(
+                cocktail.idDrink.orEmpty(),
+                cocktail.strDrink.orEmpty(),
+                cocktail.strDrinkThumb.orEmpty(),
+                cocktail.strCategory.orEmpty(),
+                cocktail.strAlcoholic.orEmpty(),
+                cocktail.strInstructions.orEmpty(),
+                cocktail.strGlass.orEmpty(),
+                prepareCocktailIngredients(cocktail)
+            ))
+        } else {
+            response as Either.Left
         }
     }
 

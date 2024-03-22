@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CocktailSearchResponseModel(
-    @SerialName("drinks") val cocktails: List<CocktailDetailsModel>
+    @SerialName("drinks") val cocktails: List<CocktailDetailsModel>?
 )

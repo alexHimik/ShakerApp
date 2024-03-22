@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -44,6 +45,8 @@ import com.shaker.app.presentation.ui.components.FoundCocktailsGridList
 import com.shaker.app.presentation.ui.components.NoResults
 import com.shaker.app.presentation.ui.components.ShakerDivider
 import com.shaker.app.presentation.ui.components.ShakerSurface
+import com.shaker.app.presentation.ui.navigation.ShakerScreen
+import com.shaker.app.presentation.ui.screen.home.ShakerHomeScreen.NAV_COCKTAIL_DETAILS_DEST_PARAM
 import com.shaker.app.presentation.ui.theme.ShakerTheme
 import com.shaker.app.presentation.ui.viewmodel.search.ShakerSearchViewModel
 import com.shaker.domain.model.ShakerCocktailModel
@@ -63,9 +66,11 @@ fun SearchScreen(
 
     onErrorHandler.invoke(searchViewModel.errorData.asLiveData())
 
-    ShakerSurface(modifier = Modifier
-        .fillMaxSize()
-        .padding(paddingValues)) {
+    ShakerSurface(
+        modifier = Modifier
+        .wrapContentHeight()
+        .padding(bottom = paddingValues.calculateBottomPadding())
+    ) {
         Column {
             Spacer(modifier = Modifier.statusBarsPadding())
             SearchBar(
@@ -79,15 +84,25 @@ fun SearchScreen(
             ShakerDivider()
 
             when (displayData.resultsType) {
-                ShakerSearchViewModel.SearchDisplay.Results -> CocktailsGridList(
-                    displayData.results, onCocktailClick
-                )
+                ShakerSearchViewModel.SearchDisplay.Results -> {
+                    FoundCocktailsGridList(displayData.results) {
+                        onCocktailClick.invoke(it)
+                    }
+                    onNavigateToRoute.invoke(
+                        "${NAV_COCKTAIL_DETAILS_DEST_PARAM}/${displayData.results[0].id}"
+                    )
+                }
 
-                ShakerSearchViewModel.SearchDisplay.Viewed -> FoundCocktailsGridList(
-                    displayData.results
-                ) {
-                    //todo handle found cocktail item click
-                    onCocktailClick.invoke(it)
+                ShakerSearchViewModel.SearchDisplay.Viewed -> {
+                    Text(
+                        modifier = Modifier.padding(8.dp),
+                        text = stringResource(R.string.recently_viewed_label),
+                        style = MaterialTheme.typography.h6,
+                        color = ShakerTheme.colors.textHelp
+                    )
+                    CocktailsGridList(
+                        displayData.results, onCocktailClick
+                    )
                 }
 
                 ShakerSearchViewModel.SearchDisplay.NoResults -> NoResults(queryData)

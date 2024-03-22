@@ -24,7 +24,7 @@ class ShakerCocktailRemoteDataSource @Inject constructor(
        }
     }
 
-    override suspend fun searchCocktailByName(nameValue: String): Either<Failure, List<CocktailDetailsModel>> {
+    override suspend fun searchCocktailByName(nameValue: String): Either<Failure, List<CocktailDetailsModel>?> {
         return try {
             Either.Right(shakerApi.searchCocktailByName(credentialStorage.provideApiCredentials(),
                 nameValue).cocktails)
@@ -36,7 +36,25 @@ class ShakerCocktailRemoteDataSource @Inject constructor(
     override suspend fun getCategoryCocktails(categoryName: String): Either<Failure, List<CocktailDetailsModel>> {
         return try {
             Either.Right(shakerApi.getCategoryCocktails(credentialStorage.provideApiCredentials(),
-                categoryName).cocktails)
+                categoryName).cocktails.orEmpty())
+        } catch (ex: Exception) {
+            Either.Left(Failure.NetworkConnection())
+        }
+    }
+
+    override suspend fun getRandomCocktailDetails(): Either<Failure, CocktailDetailsModel> {
+        return try {
+            val response = shakerApi.getRandomCocktailData(credentialStorage.provideApiCredentials())
+            if(response.cocktails?.isNotEmpty() == true)Either.Right(response.cocktails[0]) else Either.Left(Failure.NoDataError())
+        } catch (ex: Exception) {
+            Either.Left(Failure.NetworkConnection())
+        }
+    }
+
+    override suspend fun getCocktailDetails(cocktailId: String): Either<Failure, CocktailDetailsModel> {
+        return try {
+            val response = shakerApi.getCocktailData(credentialStorage.provideApiCredentials(), cocktailId)
+            if(response.cocktails?.isNotEmpty() == true)Either.Right(response.cocktails[0]) else Either.Left(Failure.NoDataError())
         } catch (ex: Exception) {
             Either.Left(Failure.NetworkConnection())
         }

@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private const val SEARCH = "search"
@@ -95,17 +96,26 @@ class ShakerSearchViewModel @Inject constructor(
     }
 
     private suspend fun startCocktailSearch(text: String) {
-        progressValue.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = shakerCocktailRepository.searchCocktailByName(text)
-            if(result.isRight) {
-                launch(Dispatchers.Main) {
-                    availableCocktails.value = (result as Either.Right).b
-                    progressValue.value = false
+        viewModelScope.launch {
+            progressValue.value = true
+            withContext(Dispatchers.IO) {
+                val result = shakerCocktailRepository.searchCocktailByName(text)
+                if(result.isRight) {
+                    withContext(Dispatchers.Main) {
+                        availableCocktails.value = (result as Either.Right).b
+                        progressValue.value = false
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        handledErrors.value = listOf((result as Either.Left).a)
+                        progressValue.value = false
+                    }
                 }
-            } else {
-                handledErrors.value = listOf((result as Either.Left).a)
             }
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+
         }
     }
 

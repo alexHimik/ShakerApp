@@ -1,7 +1,11 @@
 package com.shaker.app.presentation.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,7 +24,8 @@ fun SetupNavGraph(
 ) {
     NavHost(
         navController = navController.navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        modifier = Modifier.navigationBarsPadding()
     ) {
         composable(route = ShakerScreen.OnBoarding.route) {
             ShakerOnBoardingScreen(navController = navController, onBoardingViewModel = onBoardingViewModel)

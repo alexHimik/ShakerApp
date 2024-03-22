@@ -24,4 +24,15 @@ interface ShakerCocktailApi {
         @Path("api_key") apiKey: String,
         @Query("c") nameStartWith: String
     ): CocktailSearchResponseModel
+
+    @GET("{api_key}/random.php")
+    suspend fun getRandomCocktailData(
+        @Path("api_key") apiKey: String
+    ): CocktailSearchResponseModel
+
+    @GET("{api_key}/lookup.php")
+    suspend fun getCocktailData(
+        @Path("api_key") apiKey: String,
+        @Query("i") nameStartWith: String
+    ): CocktailSearchResponseModel
 }

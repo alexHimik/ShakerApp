@@ -23,4 +23,10 @@ interface CocktailDao {
 
     @Query("SELECT * FROM cocktails WHERE is_favourite == 1")
     fun getFavouriteCocktails(): List<CocktailEntity>
+
+    @Query("SELECT * FROM cocktails WHERE cocktail_id == :id")
+    fun getCocktailById(id: String): CocktailEntity?
+
+    @Query("DELETE FROM cocktails")
+    fun clearData()
 }

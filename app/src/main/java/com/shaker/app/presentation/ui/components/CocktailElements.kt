@@ -15,6 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -45,7 +48,11 @@ fun FoundCocktailsGridList(
 ) {
     LazyColumn {
         itemsIndexed(cocktails) {index: Int, item: ShakerCocktailModel ->
-            ShakerCard {
+            ShakerCard(
+                modifier = Modifier.clickable {
+                    onCocktailClick.invoke(item)
+                }
+            ) {
                 Text(
                     text = item.name,
                     style = MaterialTheme.typography.h5,
@@ -103,37 +110,16 @@ fun CocktailsGridList(
     cocktails: List<ShakerCocktailModel>,
     onCocktailClick: (ShakerCocktailModel) -> Unit
 ) {
-    LazyColumn {
+    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         itemsIndexed(cocktails) {index: Int, item: ShakerCocktailModel ->
-            CocktailsGridBlock(item, index)
+            CocktailInfoItem(
+                modifier = Modifier.padding(5.dp),
+                cocktail = item,
+                photoUrlModifier = "/preview",
+                gradient = ShakerTheme.colors.gradient2_3,
+                onCocktailClick = onCocktailClick
+            )
         }
-    }
-}
-
-@Composable
-private fun CocktailsGridBlock(
-    cocktail: ShakerCocktailModel,
-    index: Int,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier) {
-        Text(
-            text = cocktail.name,
-            style = MaterialTheme.typography.h5,
-            color = ShakerTheme.colors.textPrimary,
-            modifier = Modifier
-                .heightIn(min = 48.dp)
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .wrapContentHeight()
-        )
-        VerticalGrid {
-            val gradient = when (index % 2) {
-                0 -> ShakerTheme.colors.gradient2_2
-                else -> ShakerTheme.colors.gradient2_3
-            }
-
-        }
-        Spacer(Modifier.height(4.dp))
     }
 }
 
@@ -142,6 +128,7 @@ fun CocktailInfoItem(
     cocktail: ShakerCocktailModel,
     gradient: List<Color>,
     modifier: Modifier = Modifier,
+    photoUrlModifier: String = "",
     onCocktailClick: (ShakerCocktailModel) -> Unit
 ) {
     Layout(
@@ -161,7 +148,7 @@ fun CocktailInfoItem(
                     .padding(start = 8.dp)
             )
             ShakerImage(
-                imageUrl = cocktail.photo,
+                imageUrl = cocktail.photo + photoUrlModifier,
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize()
             )
@@ -209,7 +196,8 @@ private fun SearchCategoryPreview() {
                 photo = "https://www.thecocktaildb.com//images//media//drink//w64lqm1504888810.jpg",
                 category = "",
                 type = "",
-                glassType = ""
+                glassType = "",
+                preparingInstruction = ""
             ),
             gradient = ShakerTheme.colors.gradient3_2,
             onCocktailClick = {}

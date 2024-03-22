@@ -12,9 +12,13 @@ interface ShakerCocktailDataSource {
     interface Remote {
         suspend fun getCocktailCategories(): Either<Failure, List<CocktailCategoryModel>>
 
-        suspend fun searchCocktailByName(nameValue: String): Either<Failure, List<CocktailDetailsModel>>
+        suspend fun searchCocktailByName(nameValue: String): Either<Failure, List<CocktailDetailsModel>?>
 
         suspend fun getCategoryCocktails(categoryName: String): Either<Failure, List<CocktailDetailsModel>>
+
+        suspend fun getRandomCocktailDetails(): Either<Failure, CocktailDetailsModel>
+
+        suspend fun getCocktailDetails(cocktailId: String): Either<Failure, CocktailDetailsModel>
     }
 
     interface Local {
@@ -29,5 +33,7 @@ interface ShakerCocktailDataSource {
         suspend fun getCocktailsCategories(): List<CocktailCategoryEntity>
 
         suspend fun saveCocktailCategories(categories: List<CocktailCategoryEntity>)
+
+        suspend fun getCocktailDetails(cocktailsId: String): CocktailEntity?
     }
 }

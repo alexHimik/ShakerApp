@@ -7,5 +7,6 @@ data class ShakerCocktailModel(
     val category: String,
     val type: String,
     val glassType: String,
+    val preparingInstruction: String,
     val ingredients: List<ShakerCocktailIngredientModel> = emptyList()
 )

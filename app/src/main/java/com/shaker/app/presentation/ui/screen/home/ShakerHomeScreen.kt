@@ -1,6 +1,7 @@
 package com.shaker.app.presentation.ui.screen.home
 
 import androidx.compose.foundation.layout.PaddingValues
+
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -23,10 +24,13 @@ import com.shaker.app.R
 import com.shaker.app.presentation.ui.navigation.ShakerNavController
 import com.shaker.app.presentation.ui.navigation.ShakerScreen
 import com.shaker.app.presentation.ui.screen.category.ShakerCategoryCatalogScreen
-import com.shaker.app.presentation.ui.screen.cocktails.ShakerCategoryCocktailsScreen
+import com.shaker.app.presentation.ui.screen.cocktails.details.ShakerCocktailDetailScreen
+import com.shaker.app.presentation.ui.screen.cocktails.list.ShakerCategoryCocktailsScreen
 import com.shaker.app.presentation.ui.screen.favourites.ShakerFavouritesScreen
 import com.shaker.app.presentation.ui.screen.home.ShakerHomeScreen.NAV_CATEGORIES_DEST_PARAM
 import com.shaker.app.presentation.ui.screen.home.ShakerHomeScreen.NAV_CATEGORY_ID_PARAM
+import com.shaker.app.presentation.ui.screen.home.ShakerHomeScreen.NAV_COCKTAIL_DETAILS_DEST_PARAM
+import com.shaker.app.presentation.ui.screen.home.ShakerHomeScreen.NAV_COCKTAIL_ID_PARAM
 import com.shaker.app.presentation.ui.screen.search.SearchScreen
 import com.shaker.domain.result.Failure
 
@@ -38,7 +42,9 @@ val navigationTabs = listOf<ShakerScreen>(
 
 object ShakerHomeScreen {
     const val NAV_CATEGORIES_DEST_PARAM = "category"
+    const val NAV_COCKTAIL_DETAILS_DEST_PARAM = "cocktailDetails"
     const val NAV_CATEGORY_ID_PARAM = "categoryId"
+    const val NAV_COCKTAIL_ID_PARAM = "cocktailId"
 }
 
 @Composable
@@ -50,22 +56,26 @@ fun ShakerHomeScreen(
     Scaffold(
         bottomBar = { ShakerAppBottomNavigation(homeScreenNavController, navigationTabs) },
         ) { paddingData ->
-        ShakerHomeScreenNavigationResolver(homeScreenNavController, paddingData, onErrorHandler)
+        ShakerHomeScreenNavigationResolver(homeScreenNavController, rootNavController, paddingData, onErrorHandler)
     }
 }
 
 @Composable
 private fun ShakerHomeScreenNavigationResolver(navController: NavHostController,
+                                               rootNavController: ShakerNavController,
                                                paddingValues: PaddingValues,
                                                onErrorHandler: (LiveData<List<Failure>>) -> Unit) {
-    NavHost(navController = navController, startDestination = ShakerScreen.Main.route) {
+    NavHost(
+        navController = navController,
+        startDestination = ShakerScreen.Main.route,
+    ) {
         composable(ShakerScreen.Main.route) {
             SearchScreen(
                 onCocktailClick = { cocktail ->
-                                  //todo implement cocktail clicks
+                    navController.navigate("$NAV_COCKTAIL_DETAILS_DEST_PARAM/${cocktail.id}")
                 },
                 onNavigateToRoute = { route ->
-
+                    navController.navigate(route)
                 },
                 paddingValues,
                 onErrorHandler
@@ -74,7 +84,10 @@ private fun ShakerHomeScreenNavigationResolver(navController: NavHostController,
         composable(ShakerScreen.Categories.route) {
             ShakerCategoryCatalogScreen(
                 onCategoryClick = { category ->
-                    navController.navigate("$NAV_CATEGORIES_DEST_PARAM/${category.categoryName}")
+                    val correctedName = category.categoryName
+                        .replace(" ", "")
+                        .replace("/", "_")
+                    navController.navigate("$NAV_CATEGORIES_DEST_PARAM/$correctedName")
                 },
                 paddingValues,
                 onErrorHandler
@@ -83,7 +96,7 @@ private fun ShakerHomeScreenNavigationResolver(navController: NavHostController,
         composable(ShakerScreen.Favorites.route) {
             ShakerFavouritesScreen(
                 onCocktailClick = { cocktail ->
-                    //todo implement cocktail clicks
+                    navController.navigate("$NAV_COCKTAIL_DETAILS_DEST_PARAM/${cocktail.id}")
                 },
                 paddingValues,
                 onErrorHandler
@@ -96,10 +109,24 @@ private fun ShakerHomeScreenNavigationResolver(navController: NavHostController,
             ShakerCategoryCocktailsScreen(
                 backStackEntry.arguments?.getString(NAV_CATEGORY_ID_PARAM),
                 onCocktailClick = { cocktail ->
-                    //todo implement cocktail clicks
+                    navController.navigate("$NAV_COCKTAIL_DETAILS_DEST_PARAM/${cocktail.id}")
                 },
                 paddingValues,
                 onErrorHandler
+            )
+        }
+        composable(
+            ShakerScreen.CocktailDetails.route,
+            arguments = listOf(navArgument(NAV_COCKTAIL_ID_PARAM) { type = NavType.StringType })
+        ) {backStackEntry ->
+            ShakerCocktailDetailScreen(
+                backStackEntry.arguments?.getString(NAV_COCKTAIL_ID_PARAM),
+                paddingValues,
+                onErrorHandler,
+                {
+                    navController.popBackStack()
+                    navController.navigate(ShakerScreen.Main.route)
+                }
             )
         }
     }
@@ -111,7 +138,7 @@ private fun ShakerAppBottomNavigation(
     items: List<ShakerScreen>
 ) {
     BottomNavigation {
-        val currentRoute = navController.currentDestination?.route
+        var currentRoute = navController.currentDestination?.route
         items.forEach { screen ->
             BottomNavigationItem(
                 icon = { screen.icon.let {
@@ -131,6 +158,7 @@ private fun ShakerAppBottomNavigation(
                     // second instance of the composable if we are already on that destination
                     if (currentRoute != screen.route) {
                         navController.navigate(screen.route)
+                        currentRoute = screen.route
                     }
                 }
             )
